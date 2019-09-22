@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation localGroovy() //groovy api
+    implementation gradleApi() //gradle api
+    implementation 'com.android.tools.build:gradle:' + ANDROID_GRADLE_VERSION
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.version = '1.0.6' // 配置插件版本号
+        pom.artifactId = 'demo_plugin' // 配置插件标识
+        pom.groupId = 'com.example.plugin.remote' // 配置插件组织
+    }
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //会把生成的jar包上传到该目录
+            repository(url: uri('/Users/eddie/.my_mvn_repo'))
+            pom.version = '1.0.1' // 配置插件版本号
+            pom.artifactId = 'DemoPlugin' // 配置插件标识
+            pom.groupId = 'com.example.plugin.remote' // 配置插件组织
+        }
+    }
+}
